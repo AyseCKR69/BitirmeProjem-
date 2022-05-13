@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="bfff845e566a41aead78899a0a239766" Name="Diagram1">
+        <EntityTypeShape EntityType="DBProjeTakipModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBProjeTakipModel.TBLKULLANICILAR" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBProjeTakipModel.TBLPROJE" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBProjeTakipModel.TBLRAPOR" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="DBProjeTakipModel.FK_TBLPROJE_TBLKULLANICILAR" ManuallyRouted="false" />
+        <AssociationConnector Association="DBProjeTakipModel.FK_TBLRAPOR_TBLPROJE" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DBProjeTakipModel.exceptionlog" Width="1.5" PointX="3.375" PointY="4.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,305 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DBProjeTakipModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="exceptionlog">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="timestamp" Type="datetime" Nullable="false" />
+          <Property Name="level" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="logger" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="message" Type="nvarchar" MaxLength="3600" Nullable="false" />
+          <Property Name="userid" Type="int" />
+          <Property Name="exception" Type="nvarchar" MaxLength="3600" />
+          <Property Name="stacktrace" Type="nvarchar" MaxLength="3600" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TBLKULLANICILAR">
+          <Key>
+            <PropertyRef Name="OGRID" />
+          </Key>
+          <Property Name="OGRID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OGRAD" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OGRSOYAD" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OGRNO" Type="int" Nullable="false" />
+          <Property Name="BOLUM" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DONEM" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SIFRE" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EPOSTA" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TBLPROJE">
+          <Key>
+            <PropertyRef Name="PROJEID" />
+          </Key>
+          <Property Name="PROJEID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OGRID" Type="int" Nullable="false" />
+          <Property Name="PROJEAD" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="BAŞLAMA" Type="date" Nullable="false" />
+          <Property Name="BİTİŞ" Type="date" Nullable="false" />
+          <Property Name="AÇIKLAMA" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="TBLRAPOR">
+          <Key>
+            <PropertyRef Name="RAPORID" />
+          </Key>
+          <Property Name="RAPORID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OGRID" Type="int" Nullable="false" />
+          <Property Name="YUKLENENTARIH" Type="smalldatetime" Nullable="false" />
+          <Property Name="RAPORAD" Type="nvarchar" MaxLength="50" />
+          <Property Name="HAFTA" Type="int" />
+          <Property Name="PROJEID" Type="int" Nullable="false" />
+          <Property Name="DOSYA" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <Association Name="FK_TBLPROJE_TBLKULLANICILAR">
+          <End Role="TBLKULLANICILAR" Type="Self.TBLKULLANICILAR" Multiplicity="1" />
+          <End Role="TBLPROJE" Type="Self.TBLPROJE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBLKULLANICILAR">
+              <PropertyRef Name="OGRID" />
+            </Principal>
+            <Dependent Role="TBLPROJE">
+              <PropertyRef Name="OGRID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBLRAPOR_TBLPROJE">
+          <End Role="TBLPROJE" Type="Self.TBLPROJE" Multiplicity="1" />
+          <End Role="TBLRAPOR" Type="Self.TBLRAPOR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBLPROJE">
+              <PropertyRef Name="PROJEID" />
+            </Principal>
+            <Dependent Role="TBLRAPOR">
+              <PropertyRef Name="PROJEID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBProjeTakipModelStoreContainer">
+          <EntitySet Name="exceptionlog" EntityType="Self.exceptionlog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBLKULLANICILAR" EntityType="Self.TBLKULLANICILAR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBLPROJE" EntityType="Self.TBLPROJE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBLRAPOR" EntityType="Self.TBLRAPOR" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_TBLPROJE_TBLKULLANICILAR" Association="Self.FK_TBLPROJE_TBLKULLANICILAR">
+            <End Role="TBLKULLANICILAR" EntitySet="TBLKULLANICILAR" />
+            <End Role="TBLPROJE" EntitySet="TBLPROJE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBLRAPOR_TBLPROJE" Association="Self.FK_TBLRAPOR_TBLPROJE">
+            <End Role="TBLPROJE" EntitySet="TBLPROJE" />
+            <End Role="TBLRAPOR" EntitySet="TBLRAPOR" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBProjeTakipModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TBLKULLANICILAR">
+          <Key>
+            <PropertyRef Name="OGRID" />
+          </Key>
+          <Property Name="OGRID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OGRAD" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OGRSOYAD" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OGRNO" Type="Int32" Nullable="false" />
+          <Property Name="BOLUM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DONEM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SIFRE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EPOSTA" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TBLPROJE" Relationship="Self.FK_TBLPROJE_TBLKULLANICILAR" FromRole="TBLKULLANICILAR" ToRole="TBLPROJE" />
+        </EntityType>
+        <EntityType Name="TBLPROJE">
+          <Key>
+            <PropertyRef Name="PROJEID" />
+          </Key>
+          <Property Name="PROJEID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OGRID" Type="Int32" Nullable="false" />
+          <Property Name="PROJEAD" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BAŞLAMA" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="BİTİŞ" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="AÇIKLAMA" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TBLKULLANICILAR" Relationship="Self.FK_TBLPROJE_TBLKULLANICILAR" FromRole="TBLPROJE" ToRole="TBLKULLANICILAR" />
+          <NavigationProperty Name="TBLRAPOR" Relationship="Self.FK_TBLRAPOR_TBLPROJE" FromRole="TBLPROJE" ToRole="TBLRAPOR" />
+        </EntityType>
+        <EntityType Name="TBLRAPOR">
+          <Key>
+            <PropertyRef Name="RAPORID" />
+          </Key>
+          <Property Name="RAPORID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OGRID" Type="Int32" Nullable="false" />
+          <Property Name="YUKLENENTARIH" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="RAPORAD" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HAFTA" Type="Int32" />
+          <Property Name="PROJEID" Type="Int32" Nullable="false" />
+          <Property Name="DOSYA" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TBLPROJE" Relationship="Self.FK_TBLRAPOR_TBLPROJE" FromRole="TBLRAPOR" ToRole="TBLPROJE" />
+        </EntityType>
+        <Association Name="FK_TBLPROJE_TBLKULLANICILAR">
+          <End Role="TBLKULLANICILAR" Type="Self.TBLKULLANICILAR" Multiplicity="1" />
+          <End Role="TBLPROJE" Type="Self.TBLPROJE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBLKULLANICILAR">
+              <PropertyRef Name="OGRID" />
+            </Principal>
+            <Dependent Role="TBLPROJE">
+              <PropertyRef Name="OGRID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBLRAPOR_TBLPROJE">
+          <End Role="TBLPROJE" Type="Self.TBLPROJE" Multiplicity="1" />
+          <End Role="TBLRAPOR" Type="Self.TBLRAPOR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBLPROJE">
+              <PropertyRef Name="PROJEID" />
+            </Principal>
+            <Dependent Role="TBLRAPOR">
+              <PropertyRef Name="PROJEID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBProjeTakipEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="TBLKULLANICILAR" EntityType="Self.TBLKULLANICILAR" />
+          <EntitySet Name="TBLPROJE" EntityType="Self.TBLPROJE" />
+          <EntitySet Name="TBLRAPOR" EntityType="Self.TBLRAPOR" />
+          <AssociationSet Name="FK_TBLPROJE_TBLKULLANICILAR" Association="Self.FK_TBLPROJE_TBLKULLANICILAR">
+            <End Role="TBLKULLANICILAR" EntitySet="TBLKULLANICILAR" />
+            <End Role="TBLPROJE" EntitySet="TBLPROJE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBLRAPOR_TBLPROJE" Association="Self.FK_TBLRAPOR_TBLPROJE">
+            <End Role="TBLPROJE" EntitySet="TBLPROJE" />
+            <End Role="TBLRAPOR" EntitySet="TBLRAPOR" />
+          </AssociationSet>
+          <EntitySet Name="exceptionlog" EntityType="DBProjeTakipModel.exceptionlog" />
+        </EntityContainer>
+        <EntityType Name="exceptionlog">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="level" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="logger" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="message" Type="String" Nullable="false" MaxLength="3600" FixedLength="false" Unicode="true" />
+          <Property Name="userid" Type="Int32" />
+          <Property Name="exception" Type="String" MaxLength="3600" FixedLength="false" Unicode="true" />
+          <Property Name="stacktrace" Type="String" MaxLength="3600" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBProjeTakipModelStoreContainer" CdmEntityContainer="DBProjeTakipEntities1">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DBProjeTakipModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBLKULLANICILAR">
+            <EntityTypeMapping TypeName="DBProjeTakipModel.TBLKULLANICILAR">
+              <MappingFragment StoreEntitySet="TBLKULLANICILAR">
+                <ScalarProperty Name="OGRID" ColumnName="OGRID" />
+                <ScalarProperty Name="OGRAD" ColumnName="OGRAD" />
+                <ScalarProperty Name="OGRSOYAD" ColumnName="OGRSOYAD" />
+                <ScalarProperty Name="OGRNO" ColumnName="OGRNO" />
+                <ScalarProperty Name="BOLUM" ColumnName="BOLUM" />
+                <ScalarProperty Name="DONEM" ColumnName="DONEM" />
+                <ScalarProperty Name="SIFRE" ColumnName="SIFRE" />
+                <ScalarProperty Name="EPOSTA" ColumnName="EPOSTA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBLPROJE">
+            <EntityTypeMapping TypeName="DBProjeTakipModel.TBLPROJE">
+              <MappingFragment StoreEntitySet="TBLPROJE">
+                <ScalarProperty Name="PROJEID" ColumnName="PROJEID" />
+                <ScalarProperty Name="OGRID" ColumnName="OGRID" />
+                <ScalarProperty Name="PROJEAD" ColumnName="PROJEAD" />
+                <ScalarProperty Name="BAŞLAMA" ColumnName="BAŞLAMA" />
+                <ScalarProperty Name="BİTİŞ" ColumnName="BİTİŞ" />
+                <ScalarProperty Name="AÇIKLAMA" ColumnName="AÇIKLAMA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBLRAPOR">
+            <EntityTypeMapping TypeName="DBProjeTakipModel.TBLRAPOR">
+              <MappingFragment StoreEntitySet="TBLRAPOR">
+                <ScalarProperty Name="RAPORID" ColumnName="RAPORID" />
+                <ScalarProperty Name="OGRID" ColumnName="OGRID" />
+                <ScalarProperty Name="YUKLENENTARIH" ColumnName="YUKLENENTARIH" />
+                <ScalarProperty Name="RAPORAD" ColumnName="RAPORAD" />
+                <ScalarProperty Name="HAFTA" ColumnName="HAFTA" />
+                <ScalarProperty Name="PROJEID" ColumnName="PROJEID" />
+                <ScalarProperty Name="DOSYA" ColumnName="DOSYA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="exceptionlog">
+            <EntityTypeMapping TypeName="DBProjeTakipModel.exceptionlog">
+              <MappingFragment StoreEntitySet="exceptionlog">
+                <ScalarProperty Name="stacktrace" ColumnName="stacktrace" />
+                <ScalarProperty Name="exception" ColumnName="exception" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="message" ColumnName="message" />
+                <ScalarProperty Name="logger" ColumnName="logger" />
+                <ScalarProperty Name="level" ColumnName="level" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
